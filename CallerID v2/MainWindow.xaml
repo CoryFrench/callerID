@@ -5,8 +5,133 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CallerID_v2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Background="#333"
+        Closing="Window_Closing"
+        Loaded="Window_Loaded"
+        Title="CallerID" 
+        Height="250" Width="300">
+    <TabControl Margin="5" x:Name="Tabs">
+
+        <!-- Auto ID -->
+        <TabItem Header="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="AutoBoxRow" Height="4*"/>
+                    <RowDefinition x:Name="AutoCopyRow" Height="*"/>
+                </Grid.RowDefinitions>
+                <ListBox Margin="5" Grid.Row="0" x:Name="AutoListBox" SelectionChanged="AutoListBox_SelectionChanged"/>
+                <Button x:Name="AutoCopyButton" Margin="5" Content="Copy" Grid.Row="1" Click="AutoCopyButton_Click"/>
+            </Grid>
+        </TabItem>
+
+        <!-- Search -->
+        <TabItem Header="Search">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0" Margin="10">
+                    <TextBox x:Name="SearchTextBox" DockPanel.Dock="Top" Padding="2" Margin="0 0 0 10"/>
+                    <ListBox x:Name="SearchListPanel" SelectionChanged="SearchListPanel_SelectionChanged" DockPanel.Dock="Top"/>
+                </DockPanel>
+                <StackPanel Grid.Column="1" Margin="10">
+                    <Button x:Name="SearchSearchButton" Grid.Column="1" Content="Search" Click="SearchSearchButton_Click"/>
+                    <Button x:Name="SearchCopyButton" Grid.Column="1" Content="Copy" Margin="0 12 0 0 " Click="SearchCopyButton_Click"/>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+
+        <!-- Edit Info -->
+        <TabItem Header="Edit">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- Left Column (0) -->
+                <StackPanel Grid.Column="0" Margin="10 0 10 0">
+                    <TextBlock Text="Add to number" TextAlignment="Center" FontWeight="Bold"/>
+                    <TextBlock Text="Current number" TextAlignment="Center"/>
+                    <TextBlock x:Name="EditCurrentNumberText" Text="(555)555-5555" TextAlignment="Center" FontWeight="Bold" Margin="0 0 0 5"/>
+                    <TextBox x:Name="EditTextbox" Margin="0 0 0 5"/>
+                    <Button x:Name="EditAddButton" Click="EditAddButton_Click" Content="Add"/>
+                </StackPanel>
+                <!-- Right Column (1) -->
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Placeholder" TextAlignment="Center" FontWeight="Bold" Grid.Column="1"/>
+                </StackPanel>
+
+            </Grid>
+        </TabItem>
+
+        <!-- Previous Calls -->
+        <TabItem Header="Previous Calls">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ListBox  x:Name="PreviousCallsListBox" Margin="5" Grid.Row="0"/>
+                <Button x:Name="PreviousCallsClearButton" Margin="5" Content="Clear List" Grid.Row="1" Click="PreviousCallsClearButton_Click"/>
+            </Grid>
+        </TabItem>
+
+        <!-- Settings -->
+        <TabItem Header="Settings">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Checkbox Settings -->
+                <StackPanel Grid.Column="0">
+                    <CheckBox x:Name="OneClickCopyCheckbox" Margin="0 0 0 5" Checked="OneClickCopyCheckbox_Checked" Unchecked="OneClickCopyCheckbox_Unchecked" Content="One-Click Copy"/>
+                    <TextBlock Text="Auto tab ratio" TextAlignment="Center" />
+                    <TextBlock Text="(4:1 default)" Margin="0 0 0 5" TextAlignment="Center"/>
+                    <Grid Margin="30 0 30 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="SettingsRatioBox" TextChanged="SettingsRatio_TextChanged" Grid.Column="0" TextAlignment="Center" Text="4"/>
+                        <TextBlock Text=":" TextAlignment="Center" Grid.Column="1" />
+                        <TextBox x:Name="SettingsRatioButton" TextChanged=" SettingsRatio_TextChanged" Grid.Column="2" TextAlignment="Center" Text="1"/>
+                    </Grid>
+                </StackPanel>
+                <!-- Color Radio Buttons -->
+                <StackPanel Grid.Column="1" Margin="10 0 0 0">
+                    <TextBlock Text="Window Trim Color" FontWeight="Bold" Margin="0 0 0 5"/>
+                    <RadioButton Click="ColorRadio_Click" x:Name="RedColorRadio" Content="Red"/>
+                    <RadioButton Click="ColorRadio_Click" x:Name="BlueColorRadio" Content="Blue"/>
+                    <RadioButton Click="ColorRadio_Click" x:Name="GreenColorRadio" Content="Green"/>
+                    <RadioButton Click="ColorRadio_Click" x:Name="BlackColorRadio" Content="Black"/>
+                    <RadioButton Click="ColorRadio_Click" x:Name="CustomColorRadio" Content="Custom" Background="White"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock TextAlignment="Center" Text="Red"/>
+                            <TextBox x:Name="SettingsColorRed" Text="0" MaxLength="3" Margin="0 0 2 0" TextChanged="CustomColor_TextChanged" TextAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock TextAlignment="Center" Text="Green"/>
+                            <TextBox x:Name="SettingsColorGreen" Text="0" MaxLength="3" TextChanged="CustomColor_TextChanged" TextAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock TextAlignment="Center" Text="Blue"/>
+                            <TextBox x:Name="SettingsColorBlue" Text="0" MaxLength="3" Margin="2 0 0 0" TextChanged="CustomColor_TextChanged" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                    <TextBox x:Name="ColorSample" Height="10px" Margin="0 3 0 0"/>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+
+    </TabControl>
 </Window>
